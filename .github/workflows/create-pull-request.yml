@@ -4,6 +4,9 @@ on:
     - cron: "5 2 * * *"
   workflow_dispatch:
 
+permissions:
+  pull-requests: write
+
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
