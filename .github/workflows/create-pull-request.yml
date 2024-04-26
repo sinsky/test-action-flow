@@ -4,7 +4,9 @@ on:
     - cron: "5 2 * * *"
   workflow_dispatch:
 
-permissions: write-all
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   create-pull-request:
@@ -17,6 +19,7 @@ jobs:
         id: date
         run: |
           echo "now=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+          echo "date=$(date '+%Y-%m-%d')" >> $GITHUB_OUTPUT
       - name: create diff
         run: echo "runned at $(date +'%Y-%m-%d %H:%M:%S')" >> diff.txt
       - name: create pull request
@@ -24,5 +27,6 @@ jobs:
         with:
           title: "test-action-flow ${{ steps.date.outputs.now }}"
           body: "test-action-flow"
+          branch: "auto/${{ steps.date.outputs.date }}"
           commit-message: "chore: create pull request ${{ steps.date.outputs.now }}"
           delete-branch: true
