@@ -1,0 +1,24 @@
+name: Create pull_request
+on:
+  schedule:
+    - cron: "5 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: create now
+        id: date
+        run: |
+          echo "now=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+      - name: create pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "test-action-flow ${{ steps.date.outputs.now }}"
+          body: "test-action-flow"
+          commit-message: "chore: create pull request ${{ steps.date.outputs.now }}"
+          delete-branch: true
