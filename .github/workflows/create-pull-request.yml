@@ -4,8 +4,7 @@ on:
     - cron: "5 2 * * *"
   workflow_dispatch:
 
-permissions:
-  pull-requests: write
+permissions: write-all
 
 jobs:
   create-pull-request:
